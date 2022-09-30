@@ -1,0 +1,21 @@
+const express = require('express');
+const app = express.Router();
+
+var <%=attribute%> = require('../controller/<%=attribute%>Controller')
+
+// Retrieve all <%=attribute%>
+app.get('/<%=attribute%>', <%=attribute%>.findAll);
+
+// Retrieve a single <%=attribute%> with <%=attribute%>Id
+app.get('/<%=attribute%>/:id', <%=attribute%>.findOne);
+
+// Create a new <%=attribute%>
+app.post('/<%=attribute%>', <%=attribute%>.create);
+
+// Update a <%=attribute%> with <%=attribute%>Id
+app.put('/<%=attribute%>/:id', <%=attribute%>.update);
+
+// Delete a <%=attribute%> with <%=attribute%>Id
+app.delete('/<%=attribute%>/:id', <%=attribute%>.delete);
+
+module.exports = app;

@@ -1,0 +1,59 @@
+var <%=attribute%> = require('../models/<%=attribute%>');
+
+exports.create = (req, res) => {
+  var <%=attribute%>s = <%=attribute%>(req.body);
+
+  <%=attribute%>s.save()
+    .then(data => {
+      res.send(data);
+    }).catch(err => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while adding the <%=attribute%>"
+      });
+    });
+};
+
+exports.findAll = function (req, res) {
+  // Retrieve and return all <%=attribute%> from the database.
+  <%=attribute%>.find(function (err, data) {
+    if (err) {
+      res.status(500).send({ message: "Some error occurred while retrieving <%=attribute%>." });
+    } else {
+      res.send(data);
+    }
+  });
+};
+
+exports.findOne = function(req, res) {
+    // Find a single <%=attribute%> with a noteId
+    <%=attribute%>.findById(req.params.id, function(err, data) {
+        if(err) {
+            res.status(500).send({message: "Could not retrieve <%=attribute%> with id " + req.params.id});
+        } else {
+            res.send(data);
+        }
+    });
+};
+
+exports.update = function(req, res) {
+    // Update a <%=attribute%> identified by the <%=attribute%>Id in the request
+    <%=attribute%>.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then(data => {
+    res.send(data);
+  }).catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while adding the <%=attribute%>"
+    });
+  });
+};
+
+exports.delete = function(req, res) {
+    // Delete a <%=attribute%> with the specified <%=attribute%>Id in the request
+    <%=attribute%>.remove({_id: req.params.id}, function(err, data) {
+        if(err) {
+            res.status(500).send({message: "Could not delete <%=attribute%> with id " + req.params.id});
+        } else {
+            res.send({message: "<%=attribute%> deleted successfully!"})
+        }
+    });
+};

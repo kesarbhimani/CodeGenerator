@@ -1,0 +1,39 @@
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+app.use(express.json())
+mongoose
+.connect("mongodb://localhost:27017/<%=attribute%>",{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(console.log('connected'))
+.catch((err) => {
+    console.log(err)
+});
+
+const <%=attribute%>=require('./routes/<%=attribute%>Route')
+
+<%if(routes!=undefined){%>
+<%routes.map((route) =>{%>
+const <%=route%>=require('./routes/<%=route%>Route')
+<%})%>
+<%}%>
+
+app.use(bodyParser.urlencoded({ extended: true}))
+
+app.use('/',<%=attribute%>)
+
+<%if(routes!=undefined){%>
+<%routes.map((route) =>{%>
+app.use('/',<%=route%>)
+<%})%>
+<%}%>
+
+// create a server
+const PORT = 3050
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT  }`)
+})

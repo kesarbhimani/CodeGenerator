@@ -1,0 +1,26 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const <%=attribute%>Schema = new Schema({
+    <% Object.keys(schema).forEach((prop) => { %>
+        <%= prop %>: { 
+            type: <%=schema[prop] instanceof Array ? schema[prop][0] : schema[prop] %>,
+        <% if(prop === "email"){%>
+            unique: true,
+            match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
+        <%}%>
+        <% if(schema[prop] instanceof Array) { %>
+            enum: [<%- schema[prop][1].map((e) => "'" + e + "'") %>],
+        <% } %>
+            require: [true, 'Please enter <%=prop%>.']
+        },
+      <%});%>
+      <%if(foreignKey != undefined){%>
+        <%foreignKey.map((fk) => {%>
+        <%=fk%>: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: '<%=fk%>'
+            },
+        <%})%>
+    <%}%>
+});
+module.exports = mongoose.model("<%=attribute%>", <%=attribute%>Schema);

@@ -1,0 +1,24 @@
+var <%=attribute%> = require('../models/<%=attribute%>');
+
+exports.findAll = function (req, res) {
+  // Retrieve and return all <%=attribute%> from the database.
+  <%=attribute%>.find(function (err, data) {
+    if (err) {
+      res.status(500).send({ message: "Some error occurred while retrieving <%=attribute%>." });
+    } else {
+      res.send(data);
+    }
+  });
+};
+
+exports.findOne = function(req, res) {
+    // Find a single <%=attribute%> with a noteId
+    <%=attribute%>.findById(req.params.id, function(err, data) {
+        if(err) {
+            res.status(500).send({message: "Could not retrieve <%=attribute%> with id " + req.params.id});
+        } else {
+            res.send(data);
+        }
+    });
+};
+

@@ -1,0 +1,21 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const <%=attribute%>Schema = new Schema({
+    code: {
+        type: Number,
+        require: [true, 'Please enter code.'],
+    },
+    name: {
+        type: String,
+        require: [true, 'Please enter name.'],
+        lowercase: true,
+    }
+});
+var <%=attribute%>Model = mongoose.model("<%=attribute%>", <%=attribute%>Schema);
+module.exports = <%=attribute%>Model
+
+<%=attribute%>Model.insertMany([<%- values.map((val, i) => (`{ code: ${i+1}, name: "${val}" }`)) %>]).then(function(){
+    console.log("Data inserted")  // Success
+}).catch(function(error){
+    console.log(error)      // Failure
+});
